@@ -5,21 +5,19 @@
 JAVASCRIPT NEEDED
 </div>
 <div id="all" style="display:none">
-<div>
-	<input id="input_text" type="text" oninput="update()"/> 
-	<a id="fi_link" href="?lan=fi">FI</a> <span id="fi_nolink">FI</span>
-	<a id="en_link" href="?lan=en">EN</a> <span id="en_nolink">EN</span>
-</div>
-<div>
-Käyttötavan mukaan
-<div id="tapa">
-</div>
-</div>
-<div>
-Aakkosjärjestys:
-<div id="aakkos">
-</div>
-</div>
+	<div>
+		<input id="input_text" type="text" oninput="update()"/> 
+		<a id="fi_link" href="?lan=fi">FI</a> <span id="fi_nolink">FI</span>
+		<a id="en_link" href="?lan=en">EN</a> <span id="en_nolink">EN</span>
+	</div>
+	<div>
+		<div id="tapa_otsikko"></div>
+		<div id="tapa_sisalto"></div>
+	</div>
+	<div>
+		<div id="aakkos_otsikko"></div>
+		<div id="aakkos_sisalto"></div>
+	</div>
 </div>
 </body>
 <script>
@@ -72,7 +70,7 @@ function printAakkoset(ainekset){
 		}
 		output += "<br>";
 	}
-	document.getElementById("aakkos").innerHTML = output;
+	document.getElementById("aakkos_sisalto").innerHTML = output;
 }
 
 function printTapa(ainekset){
@@ -101,7 +99,7 @@ function printTapa(ainekset){
 		}
 		output += "<br>";
 	}
-	document.getElementById("tapa").innerHTML = output;
+	document.getElementById("tapa_sisalto").innerHTML = output;
 }
 
 function shouldShow(aines){
@@ -178,6 +176,11 @@ var ainekset = [
 	search: [],
 },
 ];
+
+const tapa_otsikko = {en:"Sorted by usage", fi:"Järjestelty käyttötavan mukaan"}
+
+const aakkos_otsikko = {en:"Alphabetical order", fi:"Aakkosjärjestyksessä"}
+
 function update(){
 	let url = window.location.href;
 	let lan = url.substring(url.lastIndexOf('=') + 1);
@@ -195,30 +198,11 @@ function update(){
 		document.getElementById("en_nolink").style.display = "none";
 		tr = function(a){ return a.fi;};
 	}
-	"fi_link"
-	"fi_nolink"
-	"fi_link"
-	"fi_nolink"
-	printAinekset(ainekset)
+	document.getElementById("tapa_otsikko").innerHTML = tr(tapa_otsikko);
+	document.getElementById("aakkos_otsikko").innerHTML = tr(aakkos_otsikko);
+	printAinekset(ainekset);
 }
 
-/*
-{"ananas", "pineapple", "HEDELMÄ", ""} 
-{"ankka", "duck", "LIHA", ""}
-{"banaani", "banana", "HEDELMÄ", ""} 
-{"bataatti", "sweet potato", "JUURES", "k"}
-{"broileri/kana", "sweet potato", "JUURES", "k"}
-{"friseesalaatti", "sweet potato", "JUURES", "k"}
-etikka
-herkkusieni
-hirssi
-hirvi
-inkivääri
-kaali
-kalkkuna
-kaneli
-kanttarelli
-*/
 update();
 
 </script>
