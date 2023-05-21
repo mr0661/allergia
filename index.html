@@ -49,12 +49,12 @@ function sortAinekset(a, b){
 	return cmpStr(tr(a), tr(b));
 }
 function isKeitetty(aines){
-	for(let i = 0; aines.extra.length; ++i){
+	for(let i = 0; i < aines.extra.length; ++i){
 		if(aines.extra[i] == Extra.KEITETTY ){
 			return true;
 		}
 	}
-	return false
+	return false;
 }
 
 function keitettyInfo(){
