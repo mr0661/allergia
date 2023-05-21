@@ -12,6 +12,10 @@ JAVASCRIPT NEEDED
 		<a id="en_link" href="?lan=en">EN</a> <span id="en_nolink">EN</span>
 	</div>
 	<div>
+		<h3 id="start_otsikko"></h3>
+		<div id="start_text"></div>
+	</div>
+	<div>
 		<h4 id="tapa_otsikko"></h4>
 		<div id="tapa_sisalto"></div>
 	</div>
@@ -57,17 +61,14 @@ function isKeitetty(aines){
 	return false;
 }
 
-function keitettyInfo(){
-	const k = {fi: "(k)", en: "(b)"};
-	return " " + tr(k);
-}
+const kypsennetty = {fi: "[k]", en: "[c]"};
 
 function printAakkoset(ainekset){
 	let output = '';
 	for(let i = 0 ; i < ainekset.length; ++i){
 		output += tr(ainekset[i]);
 		if (isKeitetty(ainekset[i])){
-			output += keitettyInfo();
+			output += tr(kypsennetty);
 		}
 		output += "<br>";
 	}
@@ -611,6 +612,9 @@ var ainekset = [
 	search: [],
 },
 ];
+const search_placeholder = {en: "Search", fi: "Haku"};
+const start_otsikko = {en: "Diet", fi: "Ruokavalio"};
+const start_text = {en: "I have several severe allergies. I give list of ingredients that I'm <span class='bold'>able</span> to eat. This means that for example: NO milk, NO wheat, NO fish, NO frogs, and NO eggs. Marking "+ kypsennetty.en + " means that it needs to be cooked. Please ask me if you have any questions about this.", fi: "Alla luetellaan <span class='bold'>sallitut</span> ruoka-aineet. Tämä tarkoittaa, että esimerkiksi EI maitoa, vehnää, kalaa, kananmunia tai sammakoita. Merkintä " + kypsennetty.fi + " tarkoittaa että vain kypsennettynä. Mikäli jokin on epäselvää, kysy."};
 
 const tapa_otsikko = {en:"Sorted by usage", fi:"Järjestelty käyttötavan mukaan"}
 
@@ -632,8 +636,11 @@ function update(){
 		document.getElementById("en_nolink").style.display = "none";
 		tr = function(a){ return a.fi;};
 	}
+	document.getElementById("start_otsikko").innerHTML = tr(start_otsikko);
+	document.getElementById("start_text").innerHTML = tr(start_text);
 	document.getElementById("tapa_otsikko").innerHTML = tr(tapa_otsikko);
 	document.getElementById("aakkos_otsikko").innerHTML = tr(aakkos_otsikko);
+	document.getElementById("input_text").placeholder = tr(search_placeholder);
 	printAinekset(ainekset);
 }
 
