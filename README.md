@@ -1,0 +1,1 @@
+Allergia listaus, simppeli verkkoliittymä
