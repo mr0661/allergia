@@ -3,3 +3,11 @@
 	width: 550px;
 	columns: 3;
 }
+.topic
+{
+	font-weight: bold;
+}
+p {
+	margin:0;
+	margin-bottom: 5px;
+}

@@ -12,11 +12,11 @@ JAVASCRIPT NEEDED
 		<a id="en_link" href="?lan=en">EN</a> <span id="en_nolink">EN</span>
 	</div>
 	<div>
-		<div id="tapa_otsikko"></div>
+		<h4 id="tapa_otsikko"></h4>
 		<div id="tapa_sisalto"></div>
 	</div>
 	<div>
-		<div id="aakkos_otsikko"></div>
+		<h4 id="aakkos_otsikko"></h4>
 		<div id="aakkos_sisalto"></div>
 	</div>
 </div>
@@ -91,20 +91,20 @@ function printTapa(ainekset){
 		if(cats[cat].length === 0){
 			continue;
 		}
-		output += cat + ": ";
+		output += "<p><span class='topic'>" + cat + "</span>" + ": ";
 		for(let i = 0; i < cats[cat].length; ++i){
 			if(i > 0){
 				output += ", ";
 			}
 			output += tr(cats[cat][i]);
 		}
-		output += "<br>";
+		output += "</p>";
 	}
 	document.getElementById("tapa_sisalto").innerHTML = output;
 }
 
 function shouldShow(aines){
-	inputTerm = document.getElementById("input_text").value;
+	inputTerm = document.getElementById("input_text").value.toLowerCase();
 	if(aines.fi.indexOf(inputTerm) !== -1){
 		return true;
 	}
