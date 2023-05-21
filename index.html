@@ -619,7 +619,6 @@ const aakkos_otsikko = {en:"Alphabetical order", fi:"Aakkosjärjestyksessä"}
 function update(){
 	let url = window.location.href;
 	let lan = url.substring(url.lastIndexOf('=') + 1);
-	console.log(lan);
 	if(lan === "en"){
 		document.getElementById("en_link").style.display = "none";
 		document.getElementById("fi_nolink").style.display = "none";
