@@ -1,6 +1,10 @@
 <head>
 </head>
 <body>
+<div id="javascript_needed">
+JAVASCRIPT NEEDED
+</div>
+<div id="all" style="display:none">
 <div>
 	<input id="input_text" type="text" oninput="update()"/> 
 	<a id="fi_link" href="?lan=fi">FI</a> <span id="fi_nolink">FI</span>
@@ -16,8 +20,11 @@ Aakkosjärjestys:
 <div id="aakkos">
 </div>
 </div>
+</div>
 </body>
 <script>
+document.getElementById("javascript_needed").style.display="none";
+document.getElementById("all").style.display="block";
 const Cat = {
 LIHA: {fi: "liha", en:"meat"},
 JUURES:{fi: "juures", en:"root vegetable"},
