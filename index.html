@@ -1,0 +1,217 @@
+<head>
+</head>
+<body>
+<div>
+	<input id="input_text" type="text" oninput="update()"/> 
+	<a id="fi_link" href="?lan=fi">FI</a> <span id="fi_nolink">FI</span>
+	<a id="en_link" href="?lan=en">EN</a> <span id="en_nolink">EN</span>
+</div>
+<div>
+Käyttötavan mukaan
+<div id="tapa">
+</div>
+</div>
+<div>
+Aakkosjärjestys:
+<div id="aakkos">
+</div>
+</div>
+</body>
+<script>
+const Cat = {
+LIHA: {fi: "liha", en:"meat"},
+JUURES:{fi: "juures", en:"root vegetable"},
+SALAATTI:{fi: "salaatti", en:"salad"},
+VILJA:{fi: "vilja", en:"cereal"},
+HEDELMA:{fi: "hedelmä", en:"fruit"},
+MARJA:{fi: "marja", en:"berry"},
+SIENET:{fi: "sieni", en:"mushroom"},
+RASVA:{fi: "öljy", en:"oil"},
+MAUSTE:{fi: "mauste", en:"spice"},
+HUUME:{fi: "päihde", en:"narcotic"},
+};
+const Extra = {
+KEITETTY: 'k',
+};
+
+var tr;
+
+function cmpStr(a, b){
+	return a.localeCompare(b);
+}
+function sortAinekset(a, b){
+	return cmpStr(tr(a), tr(b));
+}
+function isKeitetty(aines){
+	for(let i = 0; aines.extra.length; ++i){
+		if(aines.extra[i] == Extra.KEITETTY ){
+			return true;
+		}
+	}
+	return false
+}
+
+function keitettyInfo(){
+	const k = {fi: "(k)", en: "(b)"};
+	return " " + tr(k);
+}
+
+function printAakkoset(ainekset){
+	let output = '';
+	for(let i = 0 ; i < ainekset.length; ++i){
+		output += tr(ainekset[i]);
+		if (isKeitetty(ainekset[i])){
+			output += keitettyInfo();
+		}
+		output += "<br>";
+	}
+	document.getElementById("aakkos").innerHTML = output;
+}
+
+function printTapa(ainekset){
+	cats = {};
+	for(let key in Cat){
+		cats[tr(Cat[key])] = [];
+	}
+	
+	for(let i = 0; i < ainekset.length ;++i){
+		for(let j = 0; j < ainekset[i].cat.length ;++j ){
+			c = tr(ainekset[i].cat[j]);
+			cats[c].push(ainekset[i]);
+		}
+	}
+	output = "";
+	for(cat in cats){
+		if(cats[cat].length === 0){
+			continue;
+		}
+		output += cat + ": ";
+		for(let i = 0; i < cats[cat].length; ++i){
+			if(i > 0){
+				output += ", ";
+			}
+			output += tr(cats[cat][i]);
+		}
+		output += "<br>";
+	}
+	document.getElementById("tapa").innerHTML = output;
+}
+
+function shouldShow(aines){
+	inputTerm = document.getElementById("input_text").value;
+	if(aines.fi.indexOf(inputTerm) !== -1){
+		return true;
+	}
+	if(aines.en.indexOf(inputTerm) !== -1){
+		return true;
+		
+	}
+	for(let i = 0; i < aines.cat.length ; ++i){
+		if(aines.cat[i].fi.indexOf(inputTerm) !== -1){
+			return true;
+		}
+		if(aines.cat[i].en.indexOf(inputTerm) !== -1){
+			return true;
+		}
+	}
+	for(let i = 0; i < aines.search.length ; ++i){
+		if(aines.search[i].indexOf(inputTerm) !== -1){
+			return true;
+		}
+	}
+	return false;
+}
+
+function printAinekset(ainekset){
+	input_aine = [];
+	for(let i = 0; i < ainekset.length; ++i){
+		if(shouldShow(ainekset[i])){
+			input_aine.push(ainekset[i]);
+		}
+	}
+	input_aine.sort(sortAinekset);
+	printAakkoset(input_aine);
+	printTapa(input_aine);
+};
+
+var ainekset = [
+{
+	fi: "alkoholi", 
+	en: "alcohol", 
+	cat: [Cat.HUUME],
+	extra: [],
+	search: ["viina"],
+},
+{
+	fi: "bataatti", 
+	en: "sweet potato", 
+	cat: [Cat.JUURES],
+	extra: [Extra.KEITETTY],
+	search: [],
+},
+{
+	fi: "ananas", 
+	en: "pineapple", 
+	cat: [Cat.HEDELMA],
+	extra: [],
+	search: [],
+},
+{
+	fi: "ankka", 
+	en: "duck", 
+	cat: [Cat.LIHA],
+	extra: [],
+	search: [],
+},
+{
+	fi: "banaani", 
+	en: "banana", 
+	cat: [Cat.HEDELMA],
+	extra: [],
+	search: [],
+},
+];
+function update(){
+	let url = window.location.href;
+	let lan = url.substring(url.lastIndexOf('=') + 1);
+	console.log(lan);
+	if(lan === "en"){
+		document.getElementById("en_link").style.display = "none";
+		document.getElementById("fi_nolink").style.display = "none";
+		document.getElementById("fi_link").style.display = "inline";
+		document.getElementById("en_nolink").style.display = "inline";
+		tr = function(a){ return a.en;};
+	} else /*fi*/{
+		document.getElementById("en_link").style.display = "inline";
+		document.getElementById("fi_nolink").style.display = "inline";
+		document.getElementById("fi_link").style.display = "none";
+		document.getElementById("en_nolink").style.display = "none";
+		tr = function(a){ return a.fi;};
+	}
+	"fi_link"
+	"fi_nolink"
+	"fi_link"
+	"fi_nolink"
+	printAinekset(ainekset)
+}
+
+/*
+{"ananas", "pineapple", "HEDELMÄ", ""} 
+{"ankka", "duck", "LIHA", ""}
+{"banaani", "banana", "HEDELMÄ", ""} 
+{"bataatti", "sweet potato", "JUURES", "k"}
+{"broileri/kana", "sweet potato", "JUURES", "k"}
+{"friseesalaatti", "sweet potato", "JUURES", "k"}
+etikka
+herkkusieni
+hirssi
+hirvi
+inkivääri
+kaali
+kalkkuna
+kaneli
+kanttarelli
+*/
+update();
+
+</script>
